@@ -2,6 +2,7 @@ package com.samuelvialle.plusoumoins;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,13 +11,16 @@ import android.widget.Toast;
 
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity {
+public class PlusOuMoins extends AppCompatActivity {
     /** //1 Placer les composants dans le design **/
+
+
+
 
     /** //3.2 VAR globales **/
     int nbAleatoire;
     // logt ;)
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "PlusOuMoins";
 
     /** //2 Créer une fonction dans laquelle on va utiliser les log pour vérifier le bon fonctionnement **/
     // Fonction pour deviner le nombre
@@ -70,8 +74,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_plus_ou_moins);
 
+        Intent intent = getIntent();
+        String titre = intent.getStringExtra("TitrePage");
+        setTitle(titre);
 //        /** //3.0 Déclaration du nombre aléatoire google java random number **/
 //        Random rand = new Random();
 //        /** //3.1 la VAR nbAleatoire doit être accessible depuis la méthode devine donc elle doit être globale **/
