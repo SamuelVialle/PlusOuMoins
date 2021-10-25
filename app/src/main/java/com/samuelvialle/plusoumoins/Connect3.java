@@ -1,6 +1,7 @@
 package com.samuelvialle.plusoumoins;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.gridlayout.widget.GridLayout;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +28,8 @@ public class Connect3 extends AppCompatActivity {
     TextView tvWinner;
     Button btnPlayAgain;
 
+    boolean stopGame = false;
+
     public void init(){
         btnPlayAgain = findViewById(R.id.btnPlayAgain);
         tvWinner = findViewById(R.id.tvWinner);
@@ -40,7 +43,7 @@ public class Connect3 extends AppCompatActivity {
 
         int tappedSquare = Integer.parseInt(square.getTag().toString());
 
-        if (gameState[tappedSquare] == 2) {
+        if (gameState[tappedSquare] == 2 && !stopGame) {
             gameState[tappedSquare] = activePlayer;
 
             square.setTranslationY((-1000));
@@ -59,6 +62,9 @@ public class Connect3 extends AppCompatActivity {
                 if (gameState[winningPosition[0]] == gameState[winningPosition[1]]
                         && gameState[winningPosition[1]] == gameState[winningPosition[2]]
                         && gameState[winningPosition[0]] != 2) {
+
+                    stopGame = true;
+
                     String happyEnd = "";
                     String winner = "";
 
@@ -78,6 +84,25 @@ public class Connect3 extends AppCompatActivity {
             }
         }
     }
+
+    public void playAgain(View view){
+        tvWinner.setVisibility(View.INVISIBLE);
+        btnPlayAgain.setVisibility(View.INVISIBLE);
+
+        androidx.gridlayout.widget.GridLayout gridLayout = findViewById(R.id.mGridLayout);
+        for(int i=0; i < gridLayout.getChildCount(); i++){
+            ImageView square = (ImageView) gridLayout.getChildAt(i);
+            square.setImageDrawable(null);
+        }
+
+        for(int i=0; i<9; i++){
+            gameState[i] = 2;
+        }
+
+        activePlayer = 0;
+        stopGame = false;
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
