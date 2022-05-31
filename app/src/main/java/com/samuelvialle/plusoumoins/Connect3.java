@@ -14,12 +14,12 @@ import android.widget.Toast;
 public class Connect3 extends AppCompatActivity {
     /** Variables globales **/
     private static final String TAG = "Connect3";
-    // 0 : StarWars  // 1 : StarTrek
-    int activePlayer = 0;
+    // 1 : StarWars  // 2 : StarTrek
+    int activePlayer = 1;
 
     // Tableau en début de partie
-    // 0 : StarWars  // 1 : StarTrek // 2 : Case vide
-    int[] gameState = {2,2,2,2,2,2,2,2,2};
+    // 0 : Case vide // 1 : StarWars  // 2 : StarTrek
+    int[] gameState = {0,0,0,0,0,0,0,0,0};
 
     int[][] winningPositions = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8},
                                 {0, 3, 6}, {1, 4, 7}, {2, 5, 8},
@@ -43,17 +43,17 @@ public class Connect3 extends AppCompatActivity {
 
         int tappedSquare = Integer.parseInt(square.getTag().toString());
 
-        if (gameState[tappedSquare] == 2 && !stopGame) {
+        if (gameState[tappedSquare] == 0 && !stopGame) {
             gameState[tappedSquare] = activePlayer;
 
             square.setTranslationY((-1000));
             // Ajout d'une vérification du player courant
-            if (activePlayer == 0) {
+            if (activePlayer == 1) {
                 square.setImageResource(R.drawable.star_wars);
-                activePlayer = 1;
+                activePlayer = 2;
             } else {
                 square.setImageResource(R.drawable.star_trek);
-                activePlayer = 0;
+                activePlayer = 1;
             }
             square.animate().translationYBy(1000).rotation(1800).setDuration(500);
 
@@ -61,14 +61,14 @@ public class Connect3 extends AppCompatActivity {
             for (int[] winningPosition : winningPositions) {
                 if (gameState[winningPosition[0]] == gameState[winningPosition[1]]
                         && gameState[winningPosition[1]] == gameState[winningPosition[2]]
-                        && gameState[winningPosition[0]] != 2) {
+                        && gameState[winningPosition[0]] != 0) {
 
                     stopGame = true;
 
-                    String happyEnd = "";
-                    String winner = "";
+                    String happyEnd;
+                    String winner;
 
-                    if (activePlayer == 1) {
+                    if (activePlayer == 2) {
                         winner = "StarWars";
                         happyEnd = "May the force be with you !";
                     } else {
@@ -96,10 +96,10 @@ public class Connect3 extends AppCompatActivity {
         }
 
         for(int i=0; i<9; i++){
-            gameState[i] = 2;
+            gameState[i] = 0;
         }
 
-        activePlayer = 0;
+        activePlayer = 1;
         stopGame = false;
     }
 
